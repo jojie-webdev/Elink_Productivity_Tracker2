@@ -40,6 +40,22 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="department" class="col-md-4 col-form-label text-md-right">Deparment</label>
+                            <div class="col-md-6">
+                                <select id="department" class="form-control{{ $errors->has('department') ? ' is-invalid' : '' }}" name="department" value="{{ old('department') }}" required>
+                                    <option value=""></option>
+                                    <option value="ORM">ORM DEPT.</option>
+                                    <option value="SALES">SALES DEPT.</option>
+                                </select>
+                                @if ($errors->has('department'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('department') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
