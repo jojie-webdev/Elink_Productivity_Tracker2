@@ -19,9 +19,3 @@ https://developer.okta.com/blog/2018/12/06/crud-app-laravel-react
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-Route::resource('/', 'ActivityController');
-
-Route::get('/tasks', 'TaskController@index');
-Route::get('/tasks/{id}', 'TaskController@show');
-Route::post('/tasks', 'TaskController@store');
