@@ -57,16 +57,17 @@
     <div class="col-md-8">
         <div class="card">
             <div class="card-header">
-                <h3>List of Activities</h3>
+                <h3>Current Activity</h3>
             </div>
             <div class="card-body">
                 <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>TITLE</th>
-                            <th>START TIME</th>
-                            <th>END TIME</th>
+                            <th>TIMER</th>
                             <th>PROF OF OUTPUT</th>
+                            <th>OPTIONAL INFO</th>
+                            <th>ACTION</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -74,17 +75,58 @@
                             <tr>
                                 <td>{{$activity->activity_name}}</td>
                                 <td>
-                                    <button id="startPause" class="btn btn-primary" onclick="startPause()">Start</button>
+                                    <button class=" startPause btn btn-primary" onclick="startPause()">Start</button>
                                     <!-- <button id="startPause" onclick="startPause()">Play</button> -->
-                                    <p id="demo"></p>
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary" onclick="startTime()">Play</button>
-                                    <p id="demo"></p>
+                                    <p class="demo"></p>
                                 </td>
                                 <td>
                                     <input type="file" class="file" name="prof_of_output" required>
                                 </td>
+                                <td>
+                                    <textarea class="form-control" name="message" type="text" required>
+                                    </textarea>  
+                                </td>
+                                <td>
+                                    <input type="submit" class="btn btn-primary" value="Submit">
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+   
+</div>
+
+<!-- LIST OF ALL ACTIVITIES -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h3>List of Activities</h3>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>TITLE</th>
+                            <th>TIMER</th>
+                            <th>PROF OF OUTPUT</th>
+                            <th>OPTIONAL INFO</th>
+                            <th>STATUS</th>
+                            <th>DATE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($activities as $activity)
+                            <tr>
+                                <td>DATA</td>
+                                <td>DATA</td>
+                                <td>DATA</td>
+                                <td>DATA</td>
+                                <td>DATA</td>
+                                <td>DATA</td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -99,7 +141,8 @@
     //https://www.youtube.com/watch?v=kDnfrlK2CLg
     function startTime() {
         var dateNow = Date.now();
-        document.getElementById("play-timer").innerHTML = dateNow;
+        $('.play-timer').html(dateNow);
+        // document.getElementById("play-timer").innerHTML = dateNow;
     }
 
     var running = 0;   
@@ -109,10 +152,12 @@
         if(running == 0) {
             running = 1;
             increment();
-            document.getElementById('startPause').innerHTML ="Pause" ;
+            $('.startPause').html("Pause");
+            // document.getElementById('startPause').innerHTML ="Pause" ;
         } else {
             running = 0;
-            document.getElementById('startPause').innerHTML ="Resume" ;
+            $('.startPause').html("Resume");
+            // document.getElementById('startPause').innerHTML ="Resume" ;
         }
     }
 
@@ -140,7 +185,10 @@
                     secs = "0" +secs;
                 }
 
-                document.getElementById('demo').innerHTML = rhours + ":" + mins + ":" + secs + ":" + tenths ;
+                var timer = rhours + ":" + mins + ":" + secs + ":" + tenths ;
+                $('.demo').html(timer);
+
+                // document.getElementById('demo').innerHTML = rhours + ":" + mins + ":" + secs + ":" + tenths ;
                 increment();
             }, 100);
         }

@@ -17,4 +17,9 @@ class Activity extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    public function activitylists()
+    {
+        return $this->hasMany('App\ActivityList');
+    }
 }
