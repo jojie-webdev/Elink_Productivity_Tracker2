@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\File;
+use Illuminate\Support\Facades\Storage;
+use \App\ActivityList;
 use \App\Activity;
 use DB;
 
-
-class ActivityController extends Controller
+class ActivityListController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,16 +19,7 @@ class ActivityController extends Controller
      */
     public function index()
     {
-        if(Auth::check()){
-            //User Has Post
-            $user = Auth::user()->id;
-            $activities = DB::table('activities')->where("user_id", "=", $user)->latest()->get();
-            // $posts = Post::all();
-            return view('activities.index', ['activities' => $activities]);
-            
-        }else{
-            return redirect('/login');	
-        }
+        //
     }
 
     /**
@@ -47,18 +40,35 @@ class ActivityController extends Controller
      */
     public function store(Request $request)
     {
-        $user = Auth::user()->id;
-        $activity = new Activity($request->all());
+        // return $request->file('prof_of_output');
+        $user_id = Auth::user()->id;
+        $activitylist = new ActivityList($request->all());
 
         $data = $request->validate([
-            'activity_name' => 'required'
+            'activity_name' => 'required',
         ]);
+ 
+        $image = " ";
 
-        $activity->activity_name = $request->input('activity_name');
-        $activity->user_id = $user;
+        //If has a image to be uploaded
+        if($request->hasfile('prof_of_output')) 
+        { 
+            $file = $request->file('prof_of_output');
+            $extension = rand() .'.'.$file->getClientOriginalExtension(); // getting image extension
+            $filename =time().'.'.$extension;
+            $file->move(public_path("uploads/"), $filename);
+            $activitylist->prof_of_output = $filename;
+        }
 
-        $activity->save();   
-        return back()->with('message', 'Activity Created!');
+
+        $activitylist->activity_name = $request->input('activity_name');
+        $activitylist->activity_time_consume = $request->input('activity_time_consume');
+        $activitylist->message = $request->input('message');
+        $activitylist->status = 0;
+        $activitylist->user_id = $user_id;
+        $activitylist->save();
+        return back()->with('message', 'Activity Done and Posted!');
+ 
     }
 
     /**

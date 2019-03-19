@@ -8,7 +8,7 @@ class ActivityList extends Model
 {
     protected $table = 'lists';
     protected $fillable = [
-        'activity_start_time', 'prof_of_output'
+        'prof_of_output'
     ];
 
     public function activity()

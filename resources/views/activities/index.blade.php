@@ -18,7 +18,7 @@
             </div>
             <div class="card-body">
                 <!-- Add blog -->
-                <form class="article" action="{{ url('activities') }}" method="POST" enctype="multipart/form-data" class="add-note">
+                <form action="{{ url('activities') }}" method="post">
                 {{ csrf_field() }}
                         <div class="form-group">
                             <label class="col-lg-12 control-label">Title</label>
@@ -47,7 +47,7 @@
                         </div> -->
                         <div class="form-group">
                             <div class="col-lg-12">
-                                <input type="submit" class="btn btn-primary" value="Submit">
+                                <input type="submit" class=" btn btn-primary" value="Submit">
                             </div>
                         </div>
                 </form><!-- Form END -->
@@ -60,34 +60,34 @@
                 <h3>Current Activity</h3>
             </div>
             <div class="card-body">
-                <table class="table table-striped">
+                <table id="current_activity" class="table table-striped">
                     <thead>
                         <tr>
                             <th>TITLE</th>
-                            <th>TIMER</th>
-                            <th>PROF OF OUTPUT</th>
+                            <th>CREATED AT</th>
                             <th>OPTIONAL INFO</th>
-                            <th>ACTION</th>
+                            <th>PROF OF OUT PUT &nbsp; &nbsp; &nbsp; &nbsp; | &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ACTION</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($activities as $activity)
                             <tr>
-                                <td>{{$activity->activity_name}}</td>
+                                <td class="activity_name">{{$activity->activity_name}}</td>
+                                <td class="activity_created_at">{{$activity->created_at}}</td>
                                 <td>
-                                    <button class=" startPause btn btn-primary" onclick="startPause()">Start</button>
-                                    <!-- <button id="startPause" onclick="startPause()">Play</button> -->
-                                    <p class="demo"></p>
-                                </td>
-                                <td>
-                                    <input type="file" class="file" name="prof_of_output" required>
-                                </td>
-                                <td>
-                                    <textarea class="form-control" name="message" type="text" required>
+                                    <textarea class="form-control message" name="message" type="text" required>
                                     </textarea>  
                                 </td>
                                 <td>
-                                    <input type="submit" class="btn btn-primary" value="Submit">
+                                    <form action="{{url('activitylists')}}" method="POST" enctype="multipart/form-data">
+                                        <input type="hidden" name="_method" value="POST">
+                                        {{ csrf_field() }}
+                                        <input type="file" class="file" name="prof_of_output" required style="width: 57%;">
+                                        <input type="hidden" name="activity_time_consume" class="get_activity_created_at" value="test"/>
+                                        <input type="hidden" name="activity_name" class="get_activity_name" value="name" />
+                                        <input type="hidden" name="message" class="get_message" value="messagezzzz" />
+                                        <input type="submit" class="btn btn-primary activity_button_done" value="Submit">
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
@@ -111,7 +111,7 @@
                     <thead>
                         <tr>
                             <th>TITLE</th>
-                            <th>TIMER</th>
+                            <th>TIME CONSUME</th>
                             <th>PROF OF OUTPUT</th>
                             <th>OPTIONAL INFO</th>
                             <th>STATUS</th>
@@ -138,61 +138,99 @@
 </div>
 
 <script>
-    //https://www.youtube.com/watch?v=kDnfrlK2CLg
-    function startTime() {
-        var dateNow = Date.now();
-        $('.play-timer').html(dateNow);
-        // document.getElementById("play-timer").innerHTML = dateNow;
-    }
+    $( document ).ready(function() {
 
-    var running = 0;   
-    var time = 0;
-    
-    function startPause() {
-        if(running == 0) {
-            running = 1;
-            increment();
-            $('.startPause').html("Pause");
-            // document.getElementById('startPause').innerHTML ="Pause" ;
-        } else {
-            running = 0;
-            $('.startPause').html("Resume");
-            // document.getElementById('startPause').innerHTML ="Resume" ;
-        }
-    }
+        console.log( "ready!" );
+        //check if Current Activity has value
+        // var tbody = $("#current_activity tbody");
+        // if (tbody.children().length == 0) {
+        //     // console.log("way sulod");
+        //     $("input[type=submit]").removeAttr("disabled");       
+        // } else {
+        //     console.log("naay sulod");
+        //     $(".create_activity_button").attr("disabled", "disabled");
+        // }
 
-    function increment() {
-        if(running == 1) {
-            setTimeout(function(){ 
+        //https://www.youtube.com/watch?v=kDnfrlK2CLg
+
+
+         var date_time = new Date();
+         var date = new Date();
+                    // $('.demo').html(date);
+        $('.play-timer').html(date_time);
+
+         //SUBMIT DONE ACTIVITY
+        //  $( "input.btn.btn-primary.done_activity" ).click(function() {
+        //     var id = $(this).closest('tr').find('td.p.demo').html();
+        //     var activity_time_consume = $('.activity_time_consume').val(id);
+        //     alert(activity_time_consume);
+        // });
+
         
-                time++;
-                var mins = Math.floor(time/10/60);
-                var secs = Math.floor(time/10%60);
+        $("input.btn.btn-primary.activity_button_done").click(function(){
+            var activity_name = $(this).closest('tr').find('td.activity_name').html();
+            var activity_created_at = $(this).closest('tr').find('td.activity_created_at').html();
+            var message = $('textarea.form-control.message').val();
 
-                var hours = (mins / 60);
-                var rhours = Math.floor(hours);
+            var c = $('.get_activity_name').val(activity_name);
+            var d = $('.get_activity_created_at').val(activity_created_at);
+            var e = $('.get_message').val(message);
+                    $('.get_file').val(file);
+            // alert('name');
+        });
+    });
 
-                var tenths = time % 10;
-
-                if(rhours < 10) {
-                    rhours = "0" +rhours;
-                }
-
-                if(mins < 10) {
-                    mins = "0" +mins;
-                }
-                if(secs < 10) {
-                    secs = "0" +secs;
-                }
-
-                var timer = rhours + ":" + mins + ":" + secs + ":" + tenths ;
-                $('.demo').html(timer);
-
-                // document.getElementById('demo').innerHTML = rhours + ":" + mins + ":" + secs + ":" + tenths ;
+    //START TIMER
+    var running = 0;   
+        var time = 0;
+        var time_consume;
+        
+        function startPause() {
+            if(running == 0) {
+                running = 1;
                 increment();
-            }, 100);
+                $('.startPause').html("Pause");
+                // document.getElementById('startPause').innerHTML ="Pause" ;
+            } else {
+                running = 0;
+                $('.startPause').html("Resume");
+                // document.getElementById('startPause').innerHTML ="Resume" ;
+            }
         }
-    }
 
+        function increment() {
+            if(running == 1) {
+                setTimeout(function(){ 
+            
+                    time++;
+                    var mins = Math.floor(time/10/60);
+                    var secs = Math.floor(time/10%60);
+
+                    var hours = (mins / 60);
+                    var rhours = Math.floor(hours);
+
+                    var tenths = time % 10;
+
+                    if(rhours < 10) {
+                        rhours = "0" +rhours;
+                    }
+
+                    if(mins < 10) {
+                        mins = "0" +mins;
+                    }
+                    if(secs < 10) {
+                        secs = "0" +secs;
+                    }
+
+                    time_consume = rhours + ":" + mins + ":" + secs + ":" + tenths ;
+                    var date = new Date();
+                    // $('.demo').html(date);
+
+                    // document.getElementById('demo').innerHTML = rhours + ":" + mins + ":" + secs + ":" + tenths ;
+                    increment();
+                }, 100);
+            }
+        } //END TIMER 
+        
 </script>
 @endsection

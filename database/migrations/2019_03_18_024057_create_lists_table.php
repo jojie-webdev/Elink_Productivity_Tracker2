@@ -15,11 +15,10 @@ class CreateListsTable extends Migration
     {
         Schema::create('lists', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->time('activity_start_time');
+            $table->time('activity_time_consume');
             $table->string('prof_of_output');
             $table->string('message')->nullable();;
             $table->integer('status');
-            $table->integer('activity_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->timestamps();
 
