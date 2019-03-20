@@ -86,6 +86,7 @@
             </nav>
 
             <main class="py-4" style="overflow: hidden; padding: 2em;">
+                @include('layouts.errors')
                 @yield('content')
             </main>
             @yield('footer')

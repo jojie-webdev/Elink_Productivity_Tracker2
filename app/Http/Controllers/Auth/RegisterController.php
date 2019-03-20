@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use DB;
 
 class RegisterController extends Controller
 {
@@ -64,11 +65,23 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'department' => $data['department'],
             'password' => Hash::make($data['password']),
         ]);
+
+        //Save role_user default type 1 = user
+        $user->role_user= DB::table('role_user')->insert(
+            ['role_id' => 1, 'user_id' => $user->id]
+        ); 
+        return $user;
+
+        //User Rule
+        $roles
+           ->roles()
+           ->attach(Role::where('name', 'employee')->first());
+        return $roles;
     }
 }

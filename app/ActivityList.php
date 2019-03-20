@@ -15,4 +15,5 @@ class ActivityList extends Model
     {
         return $this->belongsTo('App\Activity');
     }
+
 }

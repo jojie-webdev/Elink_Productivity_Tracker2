@@ -15,7 +15,8 @@ class CreateListsTable extends Migration
     {
         Schema::create('lists', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->time('activity_time_consume');
+            $table->string('activity_name');
+            $table->string('activity_time_consume')->nullable();
             $table->string('prof_of_output');
             $table->string('message')->nullable();;
             $table->integer('status');

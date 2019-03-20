@@ -72,6 +72,7 @@
                     <tbody>
                         @foreach($activities as $activity)
                             <tr>
+                            <td class="activity_id" hidden>{{$activity->id}}</td>
                                 <td class="activity_name">{{$activity->activity_name}}</td>
                                 <td class="activity_created_at">{{$activity->created_at}}</td>
                                 <td>
@@ -82,6 +83,7 @@
                                     <form action="{{url('activitylists')}}" method="POST" enctype="multipart/form-data">
                                         <input type="hidden" name="_method" value="POST">
                                         {{ csrf_field() }}
+                                        <input type="hidden" name="activity_id" class="get_activity_id" value="name" />
                                         <input type="file" class="file" name="prof_of_output" required style="width: 57%;">
                                         <input type="hidden" name="activity_time_consume" class="get_activity_created_at" value="test"/>
                                         <input type="hidden" name="activity_name" class="get_activity_name" value="name" />
@@ -119,14 +121,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($activities as $activity)
+                        @foreach($lists as $list)
                             <tr>
-                                <td>DATA</td>
-                                <td>DATA</td>
-                                <td>DATA</td>
-                                <td>DATA</td>
-                                <td>DATA</td>
-                                <td>DATA</td>
+                                <td>{{$list->activity_name}}</td>
+                                <td>{{$list->activity_time_consume}}</td>
+                                <td>
+                                    <a href="{{ asset('public/uploads/'.$list->prof_of_output) }}">download file</a>
+                                </td>
+                                <td>{{$list->message}}
+                                <td>
+                                    @if ($list->status === 0  )
+                                        <h5 style="color: blue;">Submitted</h5>
+                                    @else
+                                        <h5>Approved</h5>
+                                    @endif
+                                </td>
+                                <td>{{$list->created_at}}</td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -168,6 +178,7 @@
 
         
         $("input.btn.btn-primary.activity_button_done").click(function(){
+            var activity_id = $(this).closest('tr').find('td.activity_id').html();
             var activity_name = $(this).closest('tr').find('td.activity_name').html();
             var activity_created_at = $(this).closest('tr').find('td.activity_created_at').html();
             var message = $('textarea.form-control.message').val();
@@ -175,7 +186,7 @@
             var c = $('.get_activity_name').val(activity_name);
             var d = $('.get_activity_created_at').val(activity_created_at);
             var e = $('.get_message').val(message);
-                    $('.get_file').val(file);
+                    $('.get_activity_id').val(activity_id);
             // alert('name');
         });
     });

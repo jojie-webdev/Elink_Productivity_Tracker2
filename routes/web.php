@@ -21,6 +21,8 @@ Route::group(['middleware' => ['auth']], function() {
     
     // activity route
     Route::resource('/', 'ActivityController');
+
+    Route::resource('activities', 'ActivityListController@getList');
     Route::resource('activities', 'ActivityController');
 
     Route::resource('activitylists', 'ActivityListController');

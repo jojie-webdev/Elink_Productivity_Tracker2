@@ -8,6 +8,8 @@ use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
 use \App\ActivityList;
 use \App\Activity;
+use DateTime;
+use Carbon\Carbon;
 use DB;
 
 class ActivityListController extends Controller
@@ -19,7 +21,9 @@ class ActivityListController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user()->id;
+        $lists = DB::table('lists')->where("user_id", "=", $user)->latest()->get();
+        return view('activities.index', ['lists' => $lists]);
     }
 
     /**
@@ -40,8 +44,9 @@ class ActivityListController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request->file('prof_of_output');
+        // return $request->input('activity_id');
         $user_id = Auth::user()->id;
+        $activity_id = $request->input('activity_id');
         $activitylist = new ActivityList($request->all());
 
         $data = $request->validate([
@@ -60,12 +65,58 @@ class ActivityListController extends Controller
             $activitylist->prof_of_output = $filename;
         }
 
+        // 2019-03-19 23:15:11 "2019-03-19 23:22:50"
+
+        $start_time = Carbon::parse($request->input('activity_time_consume'));
+        $end_time = Carbon::now('Asia/Manila');
+
+        $minutes = $start_time->diffInMinutes($end_time);
+
+        // return $minutes;
+
+        // $datetime1 = new DateTime($start_time);
+        // $datetime2 = new DateTime($end_time);
+        // $interval = $datetime1->diff($datetime2);
+        // $days = $interval->format('%a');//now do whatever you like with $days
+        // return $days;
+
+
+        // $to = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', $start_time);
+        // $from = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', $end_time);
+        // $diff_in_minutes = $to->diffInMinutes($from);
+        // return $diff_in_minutes;
+
+        
+
+        function convertToHoursMins($minutes, $format = '%02d:%02d') {
+            if ($minutes < 1) {
+                return;
+            }
+    
+            $hours = floor($minutes / 60);
+            $minutes = floor($minutes % 60);
+            return sprintf($format,  $hours, $minutes);
+        }
+        
+        $activity_time_consume = convertToHoursMins($minutes, " %02d hour's %02d minute's");
+
+        // $d = floor ($minutes / 1440);
+        // $h = floor (($minutes - $d * 1440) / 60);
+        // $m = $minutes - ($d * 1440) - ($h * 60);
+
+        // $activity_time_consume = "{$d}d {$h}h {$m}m";
+
+        // return $activity_time_consume;
+
 
         $activitylist->activity_name = $request->input('activity_name');
-        $activitylist->activity_time_consume = $request->input('activity_time_consume');
+        $activitylist->activity_time_consume = $activity_time_consume;
         $activitylist->message = $request->input('message');
         $activitylist->status = 0;
         $activitylist->user_id = $user_id;
+
+        DB::table('activities')->where('id', '=', $activity_id)->delete();
+
         $activitylist->save();
         return back()->with('message', 'Activity Done and Posted!');
  

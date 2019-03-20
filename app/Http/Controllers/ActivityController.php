@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use \App\Activity;
+use Carbon\Carbon;
+use DateTime;
 use DB;
 
 
@@ -21,8 +23,9 @@ class ActivityController extends Controller
             //User Has Post
             $user = Auth::user()->id;
             $activities = DB::table('activities')->where("user_id", "=", $user)->latest()->get();
+            $lists = DB::table('lists')->where("user_id", "=", $user)->latest()->get();
             // $posts = Post::all();
-            return view('activities.index', ['activities' => $activities]);
+            return view('activities.index', ['activities' => $activities, 'lists' => $lists]);
             
         }else{
             return redirect('/login');	

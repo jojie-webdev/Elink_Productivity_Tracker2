@@ -22,4 +22,5 @@ class Activity extends Model
     {
         return $this->hasMany('App\ActivityList');
     }
+    
 }
