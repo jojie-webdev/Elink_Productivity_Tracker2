@@ -6,13 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
-use \App\ActivityList;
-use \App\Activity;
+use \App\Log;
 use DateTime;
 use Carbon\Carbon;
 use DB;
 
-class ActivityListController extends Controller
+class LogController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,9 +20,7 @@ class ActivityListController extends Controller
      */
     public function index()
     {
-        $user = Auth::user()->id;
-        $lists = DB::table('lists')->where("user_id", "=", $user)->latest()->get();
-        return view('activities.index', ['lists' => $lists]);
+        //
     }
 
     /**
@@ -47,7 +44,7 @@ class ActivityListController extends Controller
         // return $request->input('activity_id');
         $user_id = Auth::user()->id;
         $activity_id = $request->input('activity_id');
-        $activitylist = new ActivityList($request->all());
+        $activitylist = new Log($request->all());
 
         $data = $request->validate([
             'activity_name' => 'required',

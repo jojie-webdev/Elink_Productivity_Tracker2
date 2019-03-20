@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateListsTable extends Migration
+class CreateLogsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateListsTable extends Migration
      */
     public function up()
     {
-        Schema::create('lists', function (Blueprint $table) {
+        Schema::create('logs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('activity_name');
             $table->string('activity_time_consume')->nullable();
@@ -22,7 +22,6 @@ class CreateListsTable extends Migration
             $table->integer('status');
             $table->integer('user_id')->unsigned();
             $table->timestamps();
-
         });
     }
 
@@ -33,6 +32,6 @@ class CreateListsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lists');
+        Schema::dropIfExists('logs');
     }
 }

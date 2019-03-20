@@ -26,4 +26,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('activities', 'ActivityController');
 
     Route::resource('activitylists', 'ActivityListController');
+    Route::resource('logs', 'LogController');
+
+    //Admin
+    Route::resource('admin', 'AdminController');
 });

@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ActivityList extends Model
+class Log extends Model
 {
-    protected $table = 'lists';
+    protected $table = 'logs';
     protected $fillable = [
         'prof_of_output'
     ];
@@ -16,4 +16,8 @@ class ActivityList extends Model
         return $this->belongsTo('App\Activity');
     }
 
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 }

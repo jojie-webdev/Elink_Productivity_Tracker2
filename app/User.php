@@ -51,7 +51,7 @@ class User extends Authenticatable
 
         foreach ($this->roles()->get() as $role)
         {
-            if ($role->name == 'admin')
+            if ($role->name == 'supervisor')
             {
                 return true;
             }
@@ -61,5 +61,10 @@ class User extends Authenticatable
     public function activities()
     {
         return $this->hasMany('App\Activity');
+    }
+
+    public function lists()
+    {
+        return $this->hasMany('App\ActivityList');
     }
 }

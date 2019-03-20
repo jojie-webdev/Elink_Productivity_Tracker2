@@ -80,7 +80,7 @@
                                     </textarea>  
                                 </td>
                                 <td>
-                                    <form action="{{url('activitylists')}}" method="POST" enctype="multipart/form-data">
+                                    <form action="{{url('logs')}}" method="POST" enctype="multipart/form-data">
                                         <input type="hidden" name="_method" value="POST">
                                         {{ csrf_field() }}
                                         <input type="hidden" name="activity_id" class="get_activity_id" value="name" />

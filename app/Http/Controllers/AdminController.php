@@ -4,14 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use \App\Activity;
-use \App\Log;
-use Carbon\Carbon;
-use DateTime;
+use \App\ActivityList;
 use DB;
 
-
-class ActivityController extends Controller
+class AdminController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,24 +17,16 @@ class ActivityController extends Controller
     public function index()
     {
         if(Auth::check()){
-            //User is Admin
             if(Auth::user()->isAdmin()){
-                // $lists = DB::table('logs')->latest()->get();
-                $lists = Log::all();
-                // return $lists;
+                $lists = ActivityList::table('lists')->latest()->get();
+                // $posts = Post::all();
                 return view('admin.index', ['lists' => $lists]);
             }else{
-                //User Has Post
-                $user = Auth::user()->id;
-                $activities = DB::table('activities')->where("user_id", "=", $user)->latest()->get();
-                $lists = DB::table('logs')->where("user_id", "=", $user)->latest()->get();
-                // $posts = Post::all();
-                return view('activities.index', ['activities' => $activities, 'lists' => $lists]);		
-                }
-        }else{
-            //User Has No Post
-            return redirect('/login');	
+                return 'DILI KA ADMIN';		
+            }
         }
+
+
     }
 
     /**
@@ -59,18 +47,7 @@ class ActivityController extends Controller
      */
     public function store(Request $request)
     {
-        $user = Auth::user()->id;
-        $activity = new Activity($request->all());
-
-        $data = $request->validate([
-            'activity_name' => 'required'
-        ]);
-
-        $activity->activity_name = $request->input('activity_name');
-        $activity->user_id = $user;
-
-        $activity->save();   
-        return back()->with('message', 'Activity Created!');
+        //
     }
 
     /**
