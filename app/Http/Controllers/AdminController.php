@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use \App\ActivityList;
+use \App\Log;
 use DB;
 
 class AdminController extends Controller
@@ -47,7 +48,13 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $logids = $request->input('approved');
+        // return $ids = $request->get('lists.ids', approved[]); 
+        foreach($logids as $id) {
+            Log::where('id', $id)
+            ->update(['status' => 1]);
+        }
+        return back()->with('message', 'Selected activity approved!');
     }
 
     /**

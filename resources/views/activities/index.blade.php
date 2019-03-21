@@ -57,7 +57,7 @@
     <div class="col-md-8">
         <div class="card">
             <div class="card-header">
-                <h3>Current Activity</h3>
+                <h3>Current Activities</h3>
             </div>
             <div class="card-body">
                 <table id="current_activity" class="table table-striped">
@@ -106,7 +106,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h3>List of Activities</h3>
+                <h3>Logs</h3>
             </div>
             <div class="card-body">
                 <table class="table table-striped">

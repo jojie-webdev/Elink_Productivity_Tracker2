@@ -31,7 +31,7 @@
 <body>
     <div id="change_wrap_div">
         <div id="app">
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top" style="background-color: #3779bc!important;">
                 <div class="container">
                     <a class="navbar-brand" href="{{ url('/') }}">
                     @auth

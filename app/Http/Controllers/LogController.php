@@ -64,12 +64,16 @@ class LogController extends Controller
 
         // 2019-03-19 23:15:11 "2019-03-19 23:22:50"
 
-        $start_time = Carbon::parse($request->input('activity_time_consume'));
-        $end_time = Carbon::now('Asia/Manila');
+        $start_time1 = $request->input('activity_time_consume');
+
+        $end_time1 = Carbon::now('Asia/Manila')->toDateTimeString();
+
+        $start_time = Carbon::parse($start_time1);
+        $end_time = Carbon::parse($end_time1);
+
+        // dd($end_time, $start_time);
 
         $minutes = $start_time->diffInMinutes($end_time);
-
-        // return $minutes;
 
         // $datetime1 = new DateTime($start_time);
         // $datetime2 = new DateTime($end_time);
@@ -77,13 +81,10 @@ class LogController extends Controller
         // $days = $interval->format('%a');//now do whatever you like with $days
         // return $days;
 
-
         // $to = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', $start_time);
         // $from = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', $end_time);
         // $diff_in_minutes = $to->diffInMinutes($from);
         // return $diff_in_minutes;
-
-        
 
         function convertToHoursMins($minutes, $format = '%02d:%02d') {
             if ($minutes < 1) {
@@ -95,7 +96,7 @@ class LogController extends Controller
             return sprintf($format,  $hours, $minutes);
         }
         
-        $activity_time_consume = convertToHoursMins($minutes, " %02d hour's %02d minute's");
+       $activity_time_consume = convertToHoursMins($minutes, " %02d hour's %02d minute's");
 
         // $d = floor ($minutes / 1440);
         // $h = floor (($minutes - $d * 1440) / 60);
@@ -111,6 +112,7 @@ class LogController extends Controller
         $activitylist->message = $request->input('message');
         $activitylist->status = 0;
         $activitylist->user_id = $user_id;
+        $activitylist->created_at = $end_time;
 
         DB::table('activities')->where('id', '=', $activity_id)->delete();
 

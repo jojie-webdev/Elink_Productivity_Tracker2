@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use \App\User;
 use \App\Activity;
 use \App\Log;
 use Carbon\Carbon;
@@ -23,10 +24,13 @@ class ActivityController extends Controller
         if(Auth::check()){
             //User is Admin
             if(Auth::user()->isAdmin()){
-                // $lists = DB::table('logs')->latest()->get();
-                $lists = Log::all();
+                //get all users except admin
+                $users = User::all()->except(Auth::id());
+                $lists = Log::where('status', 0)
+                            ->orderBy('created_at', 'desc')
+                            ->get();
                 // return $lists;
-                return view('admin.index', ['lists' => $lists]);
+                return view('admin.index', ['lists' => $lists, 'users' => $users]);
             }else{
                 //User Has Post
                 $user = Auth::user()->id;
@@ -66,7 +70,9 @@ class ActivityController extends Controller
             'activity_name' => 'required'
         ]);
 
+        $date = Carbon::now('Asia/Manila')->toDateTimeString();
         $activity->activity_name = $request->input('activity_name');
+        $activity->created_at = $date;
         $activity->user_id = $user;
 
         $activity->save();   
