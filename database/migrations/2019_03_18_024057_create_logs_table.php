@@ -22,6 +22,7 @@ class CreateLogsTable extends Migration
             $table->integer('status');
             $table->integer('user_id')->unsigned();
             $table->timestamps();
+            $table->timestamps('approved_date')->nullable();;
         });
     }
 
