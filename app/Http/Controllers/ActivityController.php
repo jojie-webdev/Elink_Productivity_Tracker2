@@ -26,8 +26,7 @@ class ActivityController extends Controller
             if(Auth::user()->isAdmin()){
                 //get all users except admin
                 $users = User::all()->except(Auth::id());
-                $lists = Log::where('status', 0)
-                            ->orderBy('created_at', 'desc')
+                $lists = Log::orderBy('created_at', 'desc')
                             ->get();
                 // return $lists;
                 return view('admin.index', ['lists' => $lists, 'users' => $users]);

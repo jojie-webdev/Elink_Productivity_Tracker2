@@ -118,6 +118,7 @@
                             <th>OPTIONAL INFO</th>
                             <th>STATUS</th>
                             <th>DATE</th>
+                            <th>APPROVE DATE</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -131,12 +132,19 @@
                                 <td>{{$list->message}}
                                 <td>
                                     @if ($list->status === 0  )
-                                        <h5 style="color: blue;">Submitted</h5>
+                                        <h5 style="color: blue; text-align: center;">Submitted</h5>
                                     @else
-                                        <h5>Approved</h5>
+                                        <h5 style="background: green; color: #fff; text-align: center;">Approved</h5>
                                     @endif
                                 </td>
                                 <td>{{$list->created_at}}</td>
+                                <td>
+                                    @if ($list->approved_date === null  )
+                                        <p>waiting...</p>
+                                    @else
+                                        <h5 style="background: green; color: #fff; text-align: center;">{{$list->approved_date}}</h5>
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

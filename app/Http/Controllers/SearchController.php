@@ -4,21 +4,37 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use \App\ActivityList;
+use \App\User;
 use \App\Log;
-use Carbon\Carbon;
 use DB;
 
-class AdminController extends Controller
+class SearchController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-       //
+        $month = $request->input('month');
+        $year = $request->input('year');
+
+        if ($month !== 'all') {
+            $users = User::all()->except(Auth::id());
+            $lists = Log::orderBy('created_at', 'desc')
+                    ->whereYear('created_at', '=', $year)
+                    ->whereMonth('created_at', '=', $month)
+                    ->get();
+            // return $lists;
+            return view('admin.index', ['lists' => $lists, 'users' => $users]);
+        }   
+
+        $users = User::all()->except(Auth::id());
+        $lists = Log::orderBy('created_at', 'desc')
+                    ->get();
+        // return $lists;
+        return view('admin.index', ['lists' => $lists, 'users' => $users]);
     }
 
     /**
@@ -39,14 +55,7 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        $logids = $request->input('approved');
-        // return $ids = $request->get('lists.ids', approved[]); 
-        $date = Carbon::now('Asia/Manila')->toDateTimeString();
-        foreach($logids as $id) {
-            Log::where('id', $id)
-            ->update(['status' => 1, 'approved_date' => $date]);
-        }
-        return back()->with('message', 'Selected activity approved!');
+        //
     }
 
     /**
@@ -93,5 +102,4 @@ class AdminController extends Controller
     {
         //
     }
-
 }

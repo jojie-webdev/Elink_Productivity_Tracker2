@@ -29,5 +29,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('logs', 'LogController');
 
     //Admin
+    Route::get('admin/tobeapprove', 'AdminController@toBeApprove');
     Route::resource('admin', 'AdminController');
+
+    Route::get('search', 'SearchController@index');
 });
