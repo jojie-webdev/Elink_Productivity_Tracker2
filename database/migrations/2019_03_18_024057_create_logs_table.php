@@ -16,14 +16,14 @@ class CreateLogsTable extends Migration
         Schema::create('logs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('activity_name');
-            $table->timestamps('start_time');
+            $table->datetime('start_time');
             $table->string('activity_time_consume')->nullable();
             $table->string('prof_of_output');
-            $table->string('message')->nullable();;
+            $table->string('message')->nullable();
             $table->integer('status');
             $table->integer('user_id')->unsigned();
             $table->timestamps();
-            $table->timestamps('approved_date')->nullable();
+            $table->datetime('approved_date')->nullable();
         });
     }
 
