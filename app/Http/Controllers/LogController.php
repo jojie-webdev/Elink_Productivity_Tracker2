@@ -52,7 +52,7 @@ class LogController extends Controller
  
         $image = " ";
 
-        //If has a image to be uploaded
+        //If has a file to be uploaded
         if($request->hasfile('prof_of_output')) 
         { 
             $file = $request->file('prof_of_output');
@@ -62,30 +62,13 @@ class LogController extends Controller
             $activitylist->prof_of_output = $filename;
         }
 
-        // 2019-03-19 23:15:11 "2019-03-19 23:22:50"
-
         $start_time1 = $request->input('activity_time_consume');
-
         $end_time1 = Carbon::now('Asia/Manila')->toDateTimeString();
 
         $start_time = Carbon::parse($start_time1);
         $end_time = Carbon::parse($end_time1);
 
-        // dd($end_time, $start_time);
-
         $minutes = $start_time->diffInMinutes($end_time);
-
-        // $datetime1 = new DateTime($start_time);
-        // $datetime2 = new DateTime($end_time);
-        // $interval = $datetime1->diff($datetime2);
-        // $days = $interval->format('%a');//now do whatever you like with $days
-        // return $days;
-
-        // $to = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', $start_time);
-        // $from = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', $end_time);
-        // $diff_in_minutes = $to->diffInMinutes($from);
-        // return $diff_in_minutes;
-
         function convertToHoursMins($minutes, $format = '%02d:%02d') {
             if ($minutes < 1) {
                 return;
@@ -98,16 +81,8 @@ class LogController extends Controller
         
        $activity_time_consume = convertToHoursMins($minutes, " %02d hour's %02d minute's");
 
-        // $d = floor ($minutes / 1440);
-        // $h = floor (($minutes - $d * 1440) / 60);
-        // $m = $minutes - ($d * 1440) - ($h * 60);
-
-        // $activity_time_consume = "{$d}d {$h}h {$m}m";
-
-        // return $activity_time_consume;
-
-
         $activitylist->activity_name = $request->input('activity_name');
+        $activitylist->start_time = $start_time1;
         $activitylist->activity_time_consume = $activity_time_consume;
         $activitylist->message = $request->input('message');
         $activitylist->status = 0;

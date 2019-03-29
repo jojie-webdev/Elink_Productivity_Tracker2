@@ -17,7 +17,7 @@
                 <h3>Create Activity Here</h3>
             </div>
             <div class="card-body">
-                <!-- Add blog -->
+                <!-- Add ACTIVITY -->
                 <form action="{{ url('activities') }}" method="post">
                 {{ csrf_field() }}
                         <div class="form-group">
@@ -26,28 +26,9 @@
                                 <input class="form-control file" name="activity_name" type="text" required>
                             </div>
                         </div>
-                        <!-- <div class="form-group">
-                            <label class="col-lg-12 control-label">Start Time</label>
-                            <div class="col-lg-12">
-                                <div id="play-timer"><div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-lg-12 control-label">End Time</label>
-                            <div class="col-lg-12">
-                                <input class="form-control file" name="activity_end_time" type="text" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-lg-12 control-label">Prof of Output</label>
-                            <div class="col-lg-12">
-                                <textarea class="form-control" name="prof_of_output" type="text" required>
-                                </textarea>  
-                            </div>
-                        </div> -->
                         <div class="form-group">
                             <div class="col-lg-12">
-                                <input type="submit" class=" btn btn-primary" value="Submit">
+                                <input type="submit" class="create_activity_button btn btn-primary" value="Submit">
                             </div>
                         </div>
                 </form><!-- Form END -->
@@ -64,7 +45,7 @@
                     <thead>
                         <tr>
                             <th>TITLE</th>
-                            <th>CREATED AT</th>
+                            <th>START TIME</th>
                             <th>OPTIONAL INFO</th>
                             <th>PROF OF OUT PUT &nbsp; &nbsp; &nbsp; &nbsp; | &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ACTION</th>
                         </tr>
@@ -113,7 +94,8 @@
                     <thead>
                         <tr>
                             <th>TITLE</th>
-                            <th>TIME CONSUME</th>
+                            <th>START TIME</th>
+                            <th>PRODUCTIVITY TIME</th>
                             <th>PROF OF OUTPUT</th>
                             <th>OPTIONAL INFO</th>
                             <th>STATUS</th>
@@ -125,6 +107,7 @@
                         @foreach($lists as $list)
                             <tr>
                                 <td>{{$list->activity_name}}</td>
+                                <td>{{$list->start_time}}</td>
                                 <td>{{$list->activity_time_consume}}</td>
                                 <td>
                                     <a href="{{ asset('public/uploads/'.$list->prof_of_output) }}">download file</a>
@@ -160,14 +143,14 @@
 
         console.log( "ready!" );
         //check if Current Activity has value
-        // var tbody = $("#current_activity tbody");
-        // if (tbody.children().length == 0) {
-        //     // console.log("way sulod");
-        //     $("input[type=submit]").removeAttr("disabled");       
-        // } else {
-        //     console.log("naay sulod");
-        //     $(".create_activity_button").attr("disabled", "disabled");
-        // }
+        var tbody = $("#current_activity tbody");
+        if (tbody.children().length == 0) {
+            // console.log("way sulod");
+            $("input[type=submit]").removeAttr("disabled");       
+        } else {
+            console.log("naay sulod");
+            $(".create_activity_button").attr("disabled", "disabled");
+        }
 
         //https://www.youtube.com/watch?v=kDnfrlK2CLg
 
