@@ -43,30 +43,29 @@ $(document).ready(function(){
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($lists as $list)
-                                        @if ($list->status === 0  )
-                                            <tr>
-                                                <td>{{$list->user->name}}</td>
-                                                <td>{{$list->activity_name}}</td>
-                                                <td>{{$list->activity_time_consume}}</td>
-                                                <td>
-                                                    <a href="{{ asset('public/uploads/'.$list->prof_of_output) }}">download file</a>
-                                                </td>
-                                                <td>{{$list->message}}
-                                                <td>
-                                                    @if ($list->status === 0  )
-                                                        <h5 style="color: blue;">Submitted</h5>
-                                                    @else
-                                                        <h5>Approved</h5>
-                                                    @endif
-                                                </td>
-                                                <td>{{$list->created_at}}</td>
-                                                <td><input class="form-control cbox" style="height: calc(1.19rem + 2px);" type="checkbox" name="approved[]" value="{{$list->id}}" /></td>
-                                            </tr>
-                                        @endif
+                                    @foreach($lists_active as $list_active)
+                                        <tr>
+                                            <td>{{$list_active->user->name}}</td>
+                                            <td>{{$list_active->activity_name}}</td>
+                                            <td>{{$list_active->activity_time_consume}}</td>
+                                            <td>
+                                                <a href="{{ asset('public/uploads/'.$list_active->prof_of_output) }}">download file</a>
+                                            </td>
+                                            <td>{{$list_active->message}}
+                                            <td>
+                                                @if ($list_active->status === 0  )
+                                                    <h5 style="color: blue;">Submitted</h5>
+                                                @else
+                                                    <h5>Approved</h5>
+                                                @endif
+                                            </td>
+                                            <td>{{$list_active->created_at}}</td>
+                                            <td><input class="form-control cbox" style="height: calc(1.19rem + 2px);" type="checkbox" name="approved[]" value="{{$list_active->id}}" /></td>
+                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>
+                                {{ $lists_active->links() }}
                                 <input id="submit" name="submit" type="submit" class="btn btn-primary activity_button_done" value="Submit">
                             </form>
                         </div>
@@ -96,26 +95,24 @@ $(document).ready(function(){
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($lists as $list)
-                                        @if ($list->status === 1  )
-                                            <tr>
-                                                <td>{{$list->user->name}}</td>
-                                                <td>{{$list->activity_name}}</td>
-                                                <td>{{$list->activity_time_consume}}</td>
-                                                <td>
-                                                    <a href="{{ asset('public/uploads/'.$list->prof_of_output) }}">download file</a>
-                                                </td>
-                                                <td>{{$list->message}}
-                                                <td>
-                                                    @if ($list->status === 0  )
-                                                        <h5 style="color: blue;">Submitted</h5>
-                                                    @else
-                                                    <h5 style="background: green; color: #fff; text-align: center;">Approved</h5>
-                                                    @endif
-                                                </td>
-                                                <td>{{$list->approved_date}}</td>
-                                            </tr>
-                                        @endif
+                                    @foreach($lists_approve as $list_approve)
+                                        <tr>
+                                            <td>{{ $list_approve->user->name}}</td>
+                                            <td>{{ $list_approve->activity_name}}</td>
+                                            <td>{{ $list_approve->activity_time_consume}}</td>
+                                            <td>
+                                                <a href="{{ asset('public/uploads/'.$list_approve->prof_of_output) }}">download file</a>
+                                            </td>
+                                            <td>{{ $list_approve->message}}
+                                            <td>
+                                                @if ($list_approve->status === 0  )
+                                                    <h5 style="color: blue;">Submitted</h5>
+                                                @else
+                                                <h5 style="background: green; color: #fff; text-align: center;">Approved</h5>
+                                                @endif
+                                            </td>
+                                            <td>{{ $list_approve->approved_date}}</td>
+                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>
