@@ -79,6 +79,7 @@
 </div>
 <hr />
 
+<a href="{{ url('all-logs-csv') }}"><button class="btn btn-success">Download Excel xls</button></a>
 
 @include('admin.tabLogs')
 

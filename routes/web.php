@@ -10,6 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+use \App\Log;
 
 Route::get('/', function () {
     return view('welcome');
@@ -33,4 +34,26 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('admin', 'AdminController');
 
     Route::get('search', 'SearchController@index');
+
+    Route::get('/all-logs-csv', function(){
+
+        // return 'test';
+
+        $table = Log::all();
+        $filename = "logs.csv";
+        $handle = fopen($filename, 'w+');
+        fputcsv($handle, array('Title', 'Productivty Time', 'Status', 'Message', 'Date'));
+    
+        foreach($table as $row) {
+            fputcsv($handle, array($row['activity_name'], $row['activity_time_consume'], $row['status'], $row['message'], $row['created_at']));
+        }
+    
+        fclose($handle);
+    
+        $headers = array(
+            'Content-Type' => 'text/csv',
+        );
+    
+        return Response::download($filename, 'logs.csv', $headers);
+    });
 });
