@@ -86,9 +86,14 @@
 
         <main class="py-4" style="overflow: hidden; padding: 2em;">
             @include('layouts.errors')
-            <div>
-                <a class="nav-link" href="{{url('admin/filterbyname')}}">Filter By Name</a>
-            </div>
+            @auth
+                @if(Auth::user()->isAdmin())
+                    <div>
+                        <a class="nav-link" href="{{url('admin/filterbyname')}}">Filter By Name</a>
+                    </div>
+                @endif
+            @endauth
+
             @yield('content')
         </main>
         @yield('footer')

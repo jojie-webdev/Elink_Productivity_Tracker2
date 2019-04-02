@@ -97,25 +97,29 @@ class AdminController extends Controller
 
     public function filterByName()
     {
-        $users = User::all()->except(Auth::id());
-        $data = Log::orderBy('created_at', 'desc')->get();
-        // return $data;
-        return view('admin.filterByName', ['datas' => $data, 'users' => $users]);
+        if(Auth::user()->isAdmin()){
+            $users = User::all()->except(Auth::id());
+            $data = Log::orderBy('created_at', 'desc')->get();
+            // return $data;
+            return view('admin.filterByName', ['datas' => $data, 'users' => $users]);
+        }
     }
 
     public function userFetchData(Request $request)
     {
-        $id = $request->input('to_user');
-        $users = User::all()->except(Auth::id());
-        if($id != 'show-all') {
-            $data = Log::orderBy('created_at', 'desc')->where('user_id', '=', $id)->get();
+        if(Auth::user()->isAdmin()){
+            $id = $request->input('to_user');
+            $users = User::all()->except(Auth::id());
+            if($id != 'show-all') {
+                $data = Log::orderBy('created_at', 'desc')->where('user_id', '=', $id)->get();
 
-            // return $data;
-            return view('admin.filterByName', ['datas' => $data, 'users' => $users]);
-        } else {
-            $data = Log::orderBy('created_at', 'desc')->get();
-            // return $data;
-            return view('admin.filterByName', ['datas' => $data, 'users' => $users]);
+                // return $data;
+                return view('admin.filterByName', ['datas' => $data, 'users' => $users]);
+            } else {
+                $data = Log::orderBy('created_at', 'desc')->get();
+                // return $data;
+                return view('admin.filterByName', ['datas' => $data, 'users' => $users]);
+            }
         }
 
     }

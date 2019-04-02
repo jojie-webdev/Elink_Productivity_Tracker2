@@ -37,53 +37,69 @@
         <div class="card">
             <div class="card-header">
                 <h3>DATA</h3>
+                <a href="{{ url('all-logs-csv') }}" data-value="1" ><button class="btn btn-success">Download Excel xls</button></a>
             </div>
-            <div class="card-body">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>NAME</th>
-                            <th>TITLE</th>
-                            <th>TIME CONSUME</th>
-                            <th>PROF OF OUTPUT</th>
-                            <th>OPTIONAL INFO</th>
-                            <th>STATUS</th>
-                            <th>DATE APPROVED</th>
-                            <th>DATE CREATED</th>
-                        </tr>
-                    </thead>
-                    <tbody> 
-                        @foreach($datas as $data)
+            <div class="card-body"> 
+                <form action="#" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="_method" value="POST">
+                    {{ csrf_field() }}
+                    <table class="table table-striped">
+                        <thead>
                             <tr>
-                                <td>{{ $data->user->name}}</td>
-                                <td>{{ $data->activity_name}}</td>
-                                <td>{{ $data->activity_time_consume}}</td>
-                                <td>
-                                    <a href="{{ asset('public/uploads/'.$data->prof_of_output) }}">download file</a>
-                                </td>
-                                <td>{{ $data->message}}
-                                <td>
-                                    @if ($data->status === 0  )
-                                        <h5 style="color: blue;">Submitted</h5>
-                                    @else
-                                    <h5 style="background: green; color: #fff; text-align: center;">Approved</h5>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if ($data->approved_date !== null  )
-                                        {{ $data->approved_date}}
-                                    @else
-                                        0000-00-00 00:00:00
-                                    @endif
-                                </td>
-                                <td>{{ $data->created_at}}</td>
+                                <th>NAME</th>
+                                <th>TITLE</th>
+                                <th>TIME CONSUME</th>
+                                <th>PROF OF OUTPUT</th>
+                                <th>OPTIONAL INFO</th>
+                                <th>STATUS</th>
+                                <th>DATE APPROVED</th>
+                                <th>DATE CREATED</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody> 
+                            @foreach($datas as $data)
+                                <tr>
+                                    <td class="id" hidden>{{ $data->id}}</td>
+                                    <td>{{ $data->user->name}}</td>
+                                    <td>{{ $data->activity_name}}</td>
+                                    <td>{{ $data->activity_time_consume}}</td>
+                                    <td>
+                                        <a href="{{ asset('public/uploads/'.$data->prof_of_output) }}">download file</a>
+                                    </td>
+                                    <td>{{ $data->message}}
+                                    <td>
+                                        @if ($data->status === 0  )
+                                            <h5 style="color: blue;">Submitted</h5>
+                                        @else
+                                        <h5 style="background: green; color: #fff; text-align: center;">Approved</h5>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($data->approved_date !== null  )
+                                            {{ $data->approved_date}}
+                                        @else
+                                            0000-00-00 00:00:00
+                                        @endif
+                                    </td>
+                                    <td>{{ $data->created_at}}</td>
+                                </tr>
+                            @endforeach
+                            <!-- <input type="submit" class="btn btn-primary download" value="download"> -->
+                        </tbody>
+                    </table>
+                </form>
             </div>
         </div>
     </div> 
 </div>
+
+<script>
+    $(".download").click(function(){
+        var id = $(this).closest('tr').find('td.id').html();
+        alert(id);
+        $('.hidden-id').val(id);
+        // alert(name);
+    });
+</script>
 
 @endsection

@@ -68,7 +68,6 @@ $(document).ready(function(){
                     <div class="card">
                         <div class="card-header">
                             <h3>ACTIVE</h3>
-                            <input style="float: right;" class="typeahead form-control" type="text">
                         </div>
                         <div class="card-body">
                             <form action="{{url('admin')}}" method="POST" enctype="multipart/form-data">
