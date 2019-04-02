@@ -22,19 +22,25 @@ class SearchController extends Controller
 
         if ($month !== 'all') {
             $users = User::all()->except(Auth::id());
-            $lists = Log::orderBy('created_at', 'desc')
+            $lists_approve = Log::orderBy('created_at', 'desc')
                     ->whereYear('created_at', '=', $year)
                     ->whereMonth('created_at', '=', $month)
                     ->get();
+            $lists_active = Log::orderBy('created_at', 'desc')
+                    ->whereYear('created_at', '=', $year)
+                    ->whereMonth('created_at', '=', $month)
+                    ->where('status', '=', 0)->paginate(5);
             // return $lists;
-            return view('admin.index', ['lists' => $lists, 'users' => $users]);
+            return view('admin.index', ['lists_approve' => $lists_approve, 'lists_active' => $lists_active, 'users' => $users]);
         }   
 
         $users = User::all()->except(Auth::id());
-        $lists = Log::orderBy('created_at', 'desc')
+        $lists_approve = Log::orderBy('created_at', 'desc')
                     ->get();
+            $lists_active = Log::orderBy('created_at', 'desc')
+                    ->where('status', '=', 0)->paginate(5);
         // return $lists;
-        return view('admin.index', ['lists' => $lists, 'users' => $users]);
+        return view('admin.index', ['lists_approve' => $lists_approve, 'lists_active' => $lists_active, 'users' => $users]);
     }
 
     /**

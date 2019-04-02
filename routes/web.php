@@ -31,6 +31,8 @@ Route::group(['middleware' => ['auth']], function() {
 
     //Admin
     Route::get('admin/tobeapprove', 'AdminController@toBeApprove');
+    Route::get('admin/filterbyname', 'AdminController@filterByName');
+    Route::get('admin/userfetchdata', 'AdminController@userFetchData');
     Route::resource('admin', 'AdminController');
 
     Route::get('search', 'SearchController@index');
