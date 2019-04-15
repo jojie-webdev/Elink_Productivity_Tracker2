@@ -101,7 +101,7 @@ class AdminController extends Controller
             $users = User::all()->except(Auth::id());
             $data = Log::orderBy('created_at', 'desc')->get();
             // return $data;
-            return view('admin.filterByName', ['datas' => $data, 'users' => $users]);
+            return view('admin.FilterByName', ['datas' => $data, 'users' => $users]);
         }
     }
 
@@ -115,11 +115,11 @@ class AdminController extends Controller
                 $data = Log::orderBy('created_at', 'desc')->where('user_id', '=', $id)->get();
 
                 // return $data;
-                return view('admin.filterByName', ['datas' => $data, 'users' => $users]);
+                return view('admin.FilterByName', ['datas' => $data, 'users' => $users]);
             } else {
 
                 $data = Log::orderBy('created_at', 'desc')->get();
-                return view('admin.filterByName', ['datas' => $data, 'users' => $users]);
+                return view('admin.FilterByName', ['datas' => $data, 'users' => $users]);
             }
         }
 
