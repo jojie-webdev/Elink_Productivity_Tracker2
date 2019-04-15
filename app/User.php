@@ -72,4 +72,8 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\ActivityList');
     }
+
+    public function getListCountAttribute(){
+        return $this->lists()->count();
+    }
 }

@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use \App\User;
 use \App\Log;
 use DB;
+use Excel;
+use Response;
 
 class SearchController extends Controller
 {
@@ -107,5 +109,35 @@ class SearchController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function allLogsCsv()
+    {
+
+        // $data = Log::whereDate('created_at','=', date('Y-m-d'))->get();
+
+        $name = Log::join('users', 'logs.user_id', '=', 'users.id')
+            ->select('logs.*', 'users.name')
+            ->get();
+
+        $table = Log::whereDate('created_at', '=', date('Y-m-d'))
+            ->get();
+
+        $filename = "logs.csv";
+        $handle = fopen($filename, 'w+');
+        fputcsv($handle, array('Name', 'Title', 'Productivty Time', 'Message', 'Date'));
+    
+        foreach($name as $row) {
+
+            fputcsv($handle, array($row['name'], $row['activity_name'], $row['activity_time_consume'], $row['message'], $row['created_at']));
+        }
+    
+        fclose($handle);
+    
+        $headers = array(
+            'Content-Type' => 'text/csv',
+        );
+    
+        return Response::download($filename, 'logs.csv', $headers);
     }
 }
